@@ -15,3 +15,5 @@ function askQuestion(query) {
   console.log(`Hello ${name}, you are ${age} years old.`);
   rl.close();
 })();
+
+
