@@ -1,6 +1,29 @@
+const { getInput, getListInputs } = require('./getInputs'); // Import the getInputs function
+
 
 let wordToGuess = "Friend";
 
+getActivePlayer = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+
+explainRules = function () {
+      console.log("here are the rules")
+}
+
+
+async function run() {
+      try {
+            let nbPlayer = await getInput("Enter the number of player : ");
+            explainRules();
+
+            let clues = await getListInputs(nbPlayer, "Give a clue to the active player : ");
+
+            console.log("All clues have been sent. The active player can come back to try to guess !");
+      } catch (error) {
+            console.error("Error : ", error)
+      }
+}
+
+/*
 const prompt = require("prompt-sync")({ sigint: true });
 
 let nbPlayer = "haha";
@@ -10,9 +33,6 @@ do {
 } while (!Number.isInteger(parseInt(nbPlayer))) 
 
 
-getactivePlayer = function(min, max) {
-      return Math.floor(Math.random() * (max - min + 1)) + min;
-}
 let activePlayer = getactivePlayer(1, nbPlayer);
 
 function sleep(ms) {
@@ -50,6 +70,6 @@ async function run() {
             console.log("You have lost :( \nThe word you had to guess was : ", wordToGuess)
       }
 }
-
+*/
 
 run()
