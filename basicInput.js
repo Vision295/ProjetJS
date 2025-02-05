@@ -5,7 +5,13 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
-rl.question("Enter your name: ", function(name) {
-  console.log("Hello, " + name + "!");
+function askQuestion(query) {
+  return new Promise(resolve => rl.question(query, resolve));
+}
+
+(async function() {
+  let name = await askQuestion("Enter your name: ");
+  let age = await askQuestion("Enter your age: ");
+  console.log(`Hello ${name}, you are ${age} years old.`);
   rl.close();
-});
+})();
