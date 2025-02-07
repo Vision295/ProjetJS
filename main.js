@@ -37,6 +37,16 @@ getWordToGuess = function() {
       return generateSlug(1, { format: "lower" });
 }
 
+getWordCard = function() {
+      let slugs = [];
+      for (let i = 0; i < 5; i++) {
+            slugs.push(generateSlug(1, { format: "lower"}));
+            console.log(i,":",slugs[i]) 
+      }
+      return slugs // Push the result of generateSlug() into the array
+
+}
+
 function sleep(ms) {
       return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -52,45 +62,48 @@ function removeDuplicates(arr) {
   
 async function run() {
       try {
-            let nbPlayer = await getInput("Enter the number of player : ", true);
-            
-            let activePlayer = getActivePlayer(1, nbPlayer);
-            let wordToGuess = getWordToGuess();
-            explainRules(nbPlayer, activePlayer, wordToGuess);
+            const nbPlayer = await getInput("Enter the number of player : ", true);
+            for (let activePlayer = 1; activePlayer <= nbPlayer; activePlayer++) {      
+                  //let activePlayer = getActivePlayer(1, nbPlayer);
+                  let wordCard = getWordCard();
+                  let wordIndex = await getInput("Which word do you want (specify index)? ", true)
+                  let wordToGuess = wordCard[wordIndex];
+                  explainRules(nbPlayer, activePlayer, wordToGuess);
 
-            await sleep(5000);
+                  await sleep(5000);
 
-            console.log("The word you should make him guess is : ", wordToGuess);
+                  //console.log("The word you should make him guess is : ", wordToGuess);
 
-            let clues = await getListInputs(nbPlayer, "Give a clue to the active player : ");
+                  let clues = await getListInputs(nbPlayer, `The word is \"${wordToGuess}\" \n Give a clue to the active player : `);
 
-            let realclues = []
-            for (clue of clues) {
-                  if (areWordsPhoneticallySimilar(clue, wordToGuess)) {
-                        console.log(`the word ${clue} can be pronounced the same way as the word ${wordToGuess}`);
-                  } else {
-                        realclues.push(clue);
+                  let realclues = []
+                  for (clue of clues) {
+                        if (areWordsPhoneticallySimilar(clue, wordToGuess)) {
+                              console.log(`the word ${clue} can be pronounced the same way as the word ${wordToGuess}`);
+                        } else {
+                              realclues.push(clue);
+                        }
                   }
-            }
-            
-            realclues = removeDuplicates(clues)
-            await sleep(2000)
-            console.log("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+                  
+                  realclues = removeDuplicates(clues)
+                  await sleep(2000)
+                  console.log("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
 
 
-            console.log("All the remaining", realclues.length ," clues have been sent. The active player can come back to try to guess ! with the following clues : ");
-            let i = 0;
-            for (clue of realclues) {
-                  console.log(`Clue number ${i} : ${clue}`)
-                  i++;
-            }
-            console.log("Guess Player (player number : ", activePlayer, ") try to guess the word !!!")
+                  console.log("All the remaining", realclues.length ," clues have been sent. The active player can come back to try to guess ! with the following clues : ");
+                  let i = 0;
+                  for (clue of realclues) {
+                        console.log(`Clue number ${i} : ${clue}`)
+                        i++;
+                  }
+                  console.log("Guess Player (player number : ", activePlayer, ") try to guess the word !!!")
 
-            let guess = await getInput("Your guess : ", false)
-            if (areWordsPhoneticallySimilar(guess, wordToGuess)) {
-                  console.log("Woow you won !!!")
-            } else {
-                  console.log("Oh no the word to guess was : ", wordToGuess)
+                  let guess = await getInput("Your guess : ", false)
+                  if (areWordsPhoneticallySimilar(guess, wordToGuess)) {
+                        console.log("Woow you won !!!")
+                  } else {
+                        console.log("Oh no the word to guess was : ", wordToGuess)
+                  }
             }
       } catch (error) {
             console.error("Error : ", error)
