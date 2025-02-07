@@ -68,7 +68,7 @@ class JustOne {
       
 
       async collectClues() {
-            this.clues = await getListInputs(this.nbPlayer, "Give a clue to the active player: ");
+            this.clues = await getListInputs(this.nbPlayer, `Give a clue to the active player to make him guess ${this.wordToGuess} : `);
             this.clues = this.clues.filter(clue => phoneticallySimilar(clue, this.wordToGuess));
             this.removeDuplicates();
       }

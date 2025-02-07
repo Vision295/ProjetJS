@@ -10,8 +10,8 @@ function getInput(msg, isNum) {
                   let numInputs = await input.text(msg);
 
                   if (isNum) {
-                        if (isNaN(numInputs) || numInputs <= 0) {
-                              console.log("Please enter a valid number greater than 0.");
+                        if (isNaN(numInputs) || numInputs < 0) {
+                              console.log("Please enter a valid number greater than or equal to 0.");
                               reject("Invalid input number");
                               return;
                         }
