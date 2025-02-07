@@ -1,5 +1,5 @@
 // main.js
-const { getInput, getListInputs } = require('./getInputs'); // Import the getInputs function
+const { getInput, getListInputs } = require('../getInputs'); // Import the getInputs function
 
 let inputs = []; // Variable to store the inputs
 
