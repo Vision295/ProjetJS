@@ -26,6 +26,15 @@ class JustOne {
             this.explainRules();
       }
 
+      async chooseWordToGuess() {
+            
+      }
+
+      async collectClues() {
+            this.clues = await getListInputs(this.nbPlayer, "Give a clue to the active player: ");
+            this.clues = this.clues.filter(clue => phoneticallySimilar(clue, this.wordToGuess));
+      }
+
       explainRules() {
             console.log("Welcome to the game JUST ONE!");
             console.log("\nGame Rules:");
@@ -37,11 +46,6 @@ class JustOne {
             console.log("6. The remaining clues are then given to the active player, who must guess the word!");
             console.log("7. If the active player guesses correctly, they win! Otherwise, they lose, and the word is revealed.");
             console.log("\nLet’s begin! Active Player (Player", this.activePlayer, "), look away while clues are being given!");
-      }
-
-      async collectClues() {
-            this.clues = await getListInputs(this.nbPlayer, "Give a clue to the active player: ");
-            this.clues = this.clues.filter(clue => phoneticallySimilar(clue, this.wordToGuess));
       }
 
       async startGame() {
