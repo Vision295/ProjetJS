@@ -33,7 +33,7 @@ class JustOne {
                   i++;
             }
             console.log("Non active players, decide on which word to choose (give its index number) : ");
-            this.wordToGuess = getInput("Give the index : ", false);
+            this.wordToGuess = await getInput("Give the index : ", false);
       }
 
       async collectClues() {
