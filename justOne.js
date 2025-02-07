@@ -44,9 +44,22 @@ class JustOne {
             this.wordToGuess = await getInput("Give the index : ", false);
       }
 
+      async removeDuplicates() {
+            // Count occurrences of each clue
+            const counts = this.clues.reduce((acc, item) => {
+                acc[item] = (acc[item] || 0) + 1;
+                return acc;
+            }, {});
+            
+            // Filter to keep only unique clues
+            return this.clues.filter(item => counts[item] === 1);
+      }
+      
+
       async collectClues() {
             this.clues = await getListInputs(this.nbPlayer, "Give a clue to the active player: ");
             this.clues = this.clues.filter(clue => phoneticallySimilar(clue, this.wordToGuess));
+            this.clues = removeDuplicates();
       }
 
       explainRules() {
