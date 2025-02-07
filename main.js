@@ -21,8 +21,16 @@ function areWordsPhoneticallySimilar(word1, word2) {
 
 getActivePlayer = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
-explainRules = function () {
-      console.log("here are the rules");
+explainRules = function (nbPlayer, activePlayer, wordToGuess) {
+      console.log("Welcome to the game JUST ONE!");
+      console.log("\nGame Rules:");
+      console.log("1. There are", nbPlayer, "players. One of them is randomly chosen as the active player.");
+      console.log("2. The active player must guess the secret word: ", wordToGuess, "(hidden from them).");
+      console.log("3. The other players each provide a one-word clue to help the active player guess the word.");
+      console.log("4. If multiple players give the same clue, those clues are eliminated.");
+      console.log("5. The remaining clues are then given to the active player, who must guess the word!");
+      console.log("6. If the active player guesses correctly, they win! Otherwise, they lose, and the word is revealed.");
+      console.log("\nLet’s begin! Active Player (Player", activePlayer, "), look away while clues are being given!");
 }
 
 getWordToGuess = function() {
@@ -36,9 +44,9 @@ function sleep(ms) {
 async function run() {
       try {
             let nbPlayer = await getInput("Enter the number of player : ", true);
-            explainRules();
             let activePlayer = getActivePlayer(1, nbPlayer);
             let wordToGuess = getWordToGuess();
+            explainRules(nbPlayer, activePlayer, wordToGuess);
 
             let clues = await getListInputs(nbPlayer, "Give a clue to the active player : ");
 
