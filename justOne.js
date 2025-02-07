@@ -27,7 +27,13 @@ class JustOne {
       }
 
       async chooseWordToGuess() {
-            
+            let i = 0;
+            for (word in this.wordsToGuess) {
+                  console.log(`${i} : ${word}`);
+                  i++;
+            }
+            console.log("Non active players, decide on which word to choose (give its index number) : ");
+            this.wordToGuess = getInput("Give the index : ", false);
       }
 
       async collectClues() {
@@ -50,19 +56,21 @@ class JustOne {
 
       async startGame() {
             try {
-                  await this.initializeGame();
-                  await this.chooseWordToGuess();
-                  await this.collectClues();
+                  while (this.activePlayer < this.nbPlayer) {
+                        await this.initializeGame();
+                        await this.chooseWordToGuess();
+                        await this.collectClues();
 
-                  await JustOne.sleep(2000);
-                  console.log("\n\n\n\n\nAll clues have been sent. The active player can come back to try to guess!");
-                  this.displayClues();
+                        await JustOne.sleep(2000);
+                        console.log("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAll clues have been sent. The active player can come back to try to guess!");
+                        this.displayClues();
 
-                  let guess = await getInput("Your guess: ", false);
-                  if (phoneticallySimilar(guess, this.wordToGuess)) {
-                        console.log("Woow you won!!!");
-                  } else {
-                        console.log("Oh no! The word to guess was:", this.wordToGuess);
+                        let guess = await getInput("Your guess: ", false);
+                        if (phoneticallySimilar(guess, this.wordToGuess)) {
+                              console.log("Woow you won!!!");
+                        } else {
+                              console.log("Oh no! The word to guess was:", this.wordToGuess);
+                        }
                   }
             } catch (error) {
                   console.error("Error:", error);
