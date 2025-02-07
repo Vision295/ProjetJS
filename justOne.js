@@ -10,7 +10,7 @@ class JustOne {
             this.activePlayer = -1;
             this.wordToGuess = [];
             this.clues = [];
-            this.choice = -1;
+            this.choice = 0;
             this.score = 0;
             this.nbCards = 13;
       }
@@ -20,7 +20,6 @@ class JustOne {
             let slugs = [];
             for (let i = 0; i < 5; i++) {
                   slugs.push(generateSlug(1, { format: "lower"}));
-                  console.log(i,":",slugs[i]) 
             }
             return slugs // Push the result of generateSlug() into the array
       }
@@ -39,6 +38,7 @@ class JustOne {
 
       async initializeGame() {
             this.activePlayer += 1;  
+            this.activePlayer = this.activePlayer % this.nbPlayer;
             this.wordsToGuess = JustOne.getWordCard();
             this.explainRules();
       }
@@ -66,14 +66,15 @@ class JustOne {
       }
       
       async removeSameAsWord() {
-            this.clues = []
+            let current = []
             for (let clue of this.clues) {
                   if (phoneticallySimilar(clue, this.wordToGuess)) {
                         console.log(`the word ${clue} can be pronounced the same way as the word ${this.wordToGuess}`);
                   } else {
-                        this.clues.push(clue);
+                        current.push(clue);
                   }
             }
+            this.clues = current
       }
 
       async collectClues() {
@@ -105,7 +106,7 @@ class JustOne {
 
                         await JustOne.sleep(2000);
                         console.log("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAll clues have been sent. The active player can come back to try to guess!");
-                        this.displayClues();
+                        await this.displayClues();
 
                         await this.getChoice()
                         if (this.choice == 1) {
@@ -128,7 +129,7 @@ class JustOne {
       }
       
 
-      displayClues() {
+      async displayClues() {
             console.log("Guess Player (player number:", this.activePlayer, ") try to guess the word!!!");
             this.clues.forEach((clue, index) => console.log(`Clue number ${index}: ${clue}`));
       }
