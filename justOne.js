@@ -12,6 +12,16 @@ class JustOne {
             this.clues = [];
             this.choice = -1;
       }
+      
+      
+      static getWordCard = function() {
+            let slugs = [];
+            for (let i = 0; i < 5; i++) {
+                  slugs.push(generateSlug(1, { format: "lower"}));
+                  console.log(i,":",slugs[i]) 
+            }
+            return slugs // Push the result of generateSlug() into the array
+      }
 
       static getActivePlayer(min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -30,18 +40,19 @@ class JustOne {
 
       async initializeGame() {
             this.activePlayer += 1;  
-            this.wordsToGuess = generateSlug(5, { format: "lower" });
+            this.wordsToGuess = JustOne.getWordCard();
             this.explainRules();
       }
 
       async chooseWordToGuess() {
             let i = 0;
-            for (word in this.wordsToGuess) {
+            for (let word of this.wordsToGuess) {
                   console.log(`${i} : ${word}`);
                   i++;
             }
             console.log("Non active players, decide on which word to choose (give its index number) : ");
-            this.wordToGuess = await getInput("Give the index : ", false);
+            let index = await getInput("Give the index : ", true);
+            this.wordToGuess = this.wordsToGuess[index]
       }
 
       async collectClues() {
@@ -64,6 +75,7 @@ class JustOne {
 
       async startGame() {
             try {
+                  console.log(this.activePlayer, this.nbPlayer);
                   while (this.activePlayer < this.nbPlayer) {
                         await this.initializeGame();
                         await this.chooseWordToGuess();
@@ -93,6 +105,10 @@ class JustOne {
 }
 
 
-let nbPlayer = getInput("Enter the number of players : ")
-const game = new JustOne(nbPlayer);
-game.startGame();
+async function run() {
+      let nbPlayer = await getInput("Enter the number of players : ")
+      const game = new JustOne(nbPlayer);
+      game.startGame();
+}
+
+run()
