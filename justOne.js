@@ -63,14 +63,14 @@ class JustOne {
             }, {});
             
             // Filter to keep only unique clues
-            return this.clues.filter(item => counts[item] === 1);
+            this.clues.filter(item => counts[item] === 1);
       }
       
 
       async collectClues() {
             this.clues = await getListInputs(this.nbPlayer, "Give a clue to the active player: ");
             this.clues = this.clues.filter(clue => phoneticallySimilar(clue, this.wordToGuess));
-            this.clues = removeDuplicates();
+            this.removeDuplicates();
       }
 
       explainRules() {
