@@ -10,10 +10,18 @@ class JustOne {
             this.activePlayer = -1;
             this.wordToGuess = [];
             this.clues = [];
+            this.choice = -1;
       }
 
       static getActivePlayer(min, max) {
             return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+
+      async getChoice() {
+            console.log("Do you want to : ");
+            console.log("1 : Guess");
+            console.log("2 : Pass")
+            this.choice = await getInput("Enter your choice (1 or 2)", true)
       }
 
       static async sleep(ms) {
