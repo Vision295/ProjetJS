@@ -30,7 +30,7 @@ function getListInputs(numInputs, msgPerInput) {
                   numInputs = parseInt(numInputs);
                   const inputs = [];
 
-                  for (let i = 1; i <= numInputs; i++) {
+                  for (let i = 1; i < numInputs; i++) {
                         let inputValue = await input.text(msgPerInput + String(i));
                         inputs.push(inputValue);
                   }
