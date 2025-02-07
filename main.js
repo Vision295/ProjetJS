@@ -1,46 +1,73 @@
-const { getInput, getListInputs } = require('./getInputs'); // Import the getInputs function
+// main.js
+
+const { getInput, getListInputs } = require('./getInputs'); 
 const natural = require('natural');
+const { generateSlug } = require("random-word-slugs");
 
 
-const metaphone = new natural.Metaphone(); // Create an instance of the Metaphone class
+
+
+const metaphone = new natural.Metaphone(); 
 function areWordsPhoneticallySimilar(word1, word2) {
-    const phoneticCode1 = metaphone.process(word1);  // Process the first word
-    const phoneticCode2 = metaphone.process(word2);  // Process the second word
+      const phoneticCode1 = metaphone.process(word1); 
+      const phoneticCode2 = metaphone.process(word2);  
 
-    // Check if the phonetic codes are the same
-    if (phoneticCode1 === phoneticCode2) {
-        return true; // Words are phonetically similar
-    } else {
-        return false; // Words are not phonetically similar
-    }
+      if (phoneticCode1 === phoneticCode2) {
+            return true; 
+      } else {
+            return false;
+      }
 }
-
-let wordToGuess = "Friend";
 
 getActivePlayer = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
 explainRules = function () {
-      console.log("here are the rules")
+      console.log("here are the rules");
 }
 
+getWordToGuess = function() {
+      return generateSlug(1, { format: "lower" });
+}
+
+function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 async function run() {
       try {
-            let nbPlayer = await getInput("Enter the number of player : ");
+            let nbPlayer = await getInput("Enter the number of player : ", true);
             explainRules();
+            let activePlayer = getActivePlayer(1, nbPlayer);
+            let wordToGuess = getWordToGuess();
 
             let clues = await getListInputs(nbPlayer, "Give a clue to the active player : ");
 
-            let reelclues = []
+            let realclues = []
             for (clue of clues) {
                   if (areWordsPhoneticallySimilar(clue, wordToGuess)) {
                         console.log(`the word ${clue} can be pronounced the same way as the word ${wordToGuess}`);
                   } else {
-                        reelclues.push(clue);
+                        realclues.push(clue);
                   }
             }
+            
+            await sleep(2000)
+            console.log("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
 
             console.log("All clues have been sent. The active player can come back to try to guess ! with the following clues : ");
+            let i = 0;
+            for (clue of realclues) {
+                  console.log(`Clue number ${i} : ${clue}`)
+                  i++;
+            }
+            console.log("Guess Player (player number : ", activePlayer, ") try to guess the word !!!")
+
+            let guess = await getInput("Your guess : ", false)
+            if (areWordsPhoneticallySimilar(guess, wordToGuess)) {
+                  console.log("Woow you won !!!")
+            } else {
+                  console.log("Oh no the word to guess was : ", wordToGuess)
+            }
       } catch (error) {
             console.error("Error : ", error)
       }

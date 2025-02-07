@@ -1,17 +1,20 @@
 // getInputs.js
+
 const input = require("input");
 
 
 
-function getInput(msg) {
+function getInput(msg, isNum) {
       return new Promise(async (resolve, reject) => {
             try {
                   let numInputs = await input.text(msg);
 
-                  if (isNaN(numInputs) || numInputs <= 0) {
-                        console.log("Please enter a valid number greater than 0.");
-                        reject("Invalid input number");
-                        return;
+                  if (isNum) {
+                        if (isNaN(numInputs) || numInputs <= 0) {
+                              console.log("Please enter a valid number greater than 0.");
+                              reject("Invalid input number");
+                              return;
+                        }
                   }
                   resolve(numInputs)
             } catch (error) {
