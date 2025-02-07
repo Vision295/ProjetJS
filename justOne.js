@@ -1,4 +1,4 @@
-// main.js
+// JustOne.js
 
 const { getInput, getListInputs } = require('./getInputs'); 
 const { phoneticallySimilar } = require('./wordManipulation');
@@ -84,3 +84,7 @@ class JustOne {
       }
 }
 
+
+let nbPlayer = getInput("Enter the number of players : ")
+const game = new JustOne(nbPlayer);
+game.startGame();
