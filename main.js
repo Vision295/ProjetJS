@@ -42,22 +42,23 @@ function sleep(ms) {
 }
 
 function removeDuplicates(arr) {
-      let seen = new Set();
-      return arr.filter(item => {
-          if (seen.has(item)) {
-              return false;
-          }
-          seen.add(item);
-          return true;
-      });
-  }
-
+      let counts = arr.reduce((acc, item) => {
+          acc[item] = (acc[item] || 0) + 1;
+          return acc;
+      }, {});
+  
+      return arr.filter(item => counts[item] === 1);
+}
+  
 async function run() {
       try {
             let nbPlayer = await getInput("Enter the number of player : ", true);
             let activePlayer = getActivePlayer(1, nbPlayer);
             let wordToGuess = getWordToGuess();
             explainRules(nbPlayer, activePlayer, wordToGuess);
+
+            sleep(2000);
+            console.log("The word you should make him guess is : ", wordToGuess);
 
             let clues = await getListInputs(nbPlayer, "Give a clue to the active player : ");
 
