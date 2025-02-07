@@ -53,6 +53,7 @@ function removeDuplicates(arr) {
 async function run() {
       try {
             let nbPlayer = await getInput("Enter the number of player : ", true);
+            
             let activePlayer = getActivePlayer(1, nbPlayer);
             let wordToGuess = getWordToGuess();
             explainRules(nbPlayer, activePlayer, wordToGuess);
