@@ -25,7 +25,7 @@ explainRules = function (nbPlayer, activePlayer, wordToGuess) {
       console.log("Welcome to the game JUST ONE!");
       console.log("\nGame Rules:");
       console.log("1. There are", nbPlayer, "players. One of them is randomly chosen as the active player.");
-      console.log("2. The active player must guess the secret word: ", wordToGuess, "(hidden from them).");
+      console.log("2. The active player must guess the secret word. ");
       console.log("3. The other players each provide a one-word clue to help the active player guess the word.");
       console.log("4. If multiple players give the same clue, those clues are eliminated.");
       console.log("5. The remaining clues are then given to the active player, who must guess the word!");
@@ -58,7 +58,8 @@ async function run() {
             let wordToGuess = getWordToGuess();
             explainRules(nbPlayer, activePlayer, wordToGuess);
 
-            sleep(2000);
+            await sleep(5000);
+
             console.log("The word you should make him guess is : ", wordToGuess);
 
             let clues = await getListInputs(nbPlayer, "Give a clue to the active player : ");
@@ -74,9 +75,10 @@ async function run() {
             
             realclues = removeDuplicates(clues)
             await sleep(2000)
-            console.log("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+            console.log("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
 
-            console.log("All clues have been sent. The active player can come back to try to guess ! with the following clues : ");
+
+            console.log("All the remaining", realclues.length ," clues have been sent. The active player can come back to try to guess ! with the following clues : ");
             let i = 0;
             for (clue of realclues) {
                   console.log(`Clue number ${i} : ${clue}`)

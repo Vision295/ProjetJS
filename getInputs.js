@@ -33,6 +33,7 @@ function getListInputs(numInputs, msgPerInput) {
                   for (let i = 1; i < numInputs; i++) {
                         let inputValue = await input.text(msgPerInput + String(i));
                         inputs.push(inputValue);
+                        console.log("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
                   }
 
                   resolve(inputs); // Resolve with the collected inputs
