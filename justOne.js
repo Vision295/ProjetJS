@@ -66,10 +66,20 @@ class JustOne {
             this.clues.filter(item => counts[item] === 1);
       }
       
+      async removeSameAsWord() {
+            this.clues = []
+            for (let clue of this.clues) {
+                  if (phoneticallySimilar(clue, this.wordToGuess)) {
+                        console.log(`the word ${clue} can be pronounced the same way as the word ${this.wordToGuess}`);
+                  } else {
+                        this.clues.push(clue);
+                  }
+            }
+      }
 
       async collectClues() {
             this.clues = await getListInputs(this.nbPlayer, `Give a clue to the active player to make him guess ${this.wordToGuess} : `);
-            this.clues = this.clues.filter(clue => phoneticallySimilar(clue, this.wordToGuess));
+            this.removeSameAsWord();
             this.removeDuplicates();
       }
 
