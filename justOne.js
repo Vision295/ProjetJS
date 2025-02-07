@@ -30,7 +30,7 @@ class JustOne {
             console.log("Do you want to : ");
             console.log("1 : Guess");
             console.log("2 : Pass")
-            this.choice = await getInput("Enter your choice (1 or 2)", true)
+            this.choice = await this.safeGetInput("Enter your choice (1 or 2)", true)
       }
 
       static async sleep(ms) {
@@ -51,7 +51,7 @@ class JustOne {
                   i++;
             }
             console.log("Non active players, decide on which word to choose (give its index number) : ");
-            let index = await getInput("Give the index : ", true);
+            let index = await this.safeGetInput("Give the index : ", true);
             this.wordToGuess = this.wordsToGuess[index]
       }
 
@@ -80,16 +80,22 @@ class JustOne {
 
       async collectClues() {
             
-            this.clues = await getListInputs(this.nbPlayer, `Give a clue to the active player to make him guess ${this.wordToGuess} : `);
+            this.clues = await this.safeGetListInputs(this.nbPlayer, `Give a clue to the active player to make him guess ${this.wordToGuess} : `);
             this.logCluesToFile();
             this.removeSameAsWord();
             this.removeDuplicates();
       }
 
       logCluesToFile() {
-            const logEntry = `Round ${this.round}:\nWord: ${this.wordToGuess}\nClues: ${this.clues.join(', ')}\n\n`;
+            const logEntry = `Round ${this.round}:\nWord: ${this.wordToGuess}\nClues: ${this.clues.join(', ')}\n`;
             
             
+            fs.appendFileSync("clues_log.txt", logEntry, "utf8");
+      }
+
+      logGuess(guess) {
+            const logEntry = `Guess : ${guess}\n\n`;
+
             fs.appendFileSync("clues_log.txt", logEntry, "utf8");
       }
 
@@ -104,6 +110,28 @@ class JustOne {
             console.log("6. The remaining clues are then given to the active player, who must guess the word!");
             console.log("7. If the active player guesses correctly, they win! Otherwise, they lose, and the word is revealed.");
             console.log("\nLet’s begin! Active Player (Player", this.activePlayer, "), look away while clues are being given!");
+      }
+
+      async safeGetInput(promptMessage, isNumber = false) {
+            while (true) {
+                  try {
+                        let input = await getInput(promptMessage, isNumber);
+                        return input; // Return valid input
+                  } catch (error) {
+                        console.log("Invalid input, please try again.");
+                  }
+            }
+      }
+        
+      async safeGetListInputs(nbPlayers, promptMessage) {
+            while (true) {
+                  try {
+                        let inputs = await getListInputs(nbPlayers, promptMessage);
+                        return inputs; // Return valid input
+                  } catch (error) {
+                        console.log("Invalid input, please try again.");
+                  }
+            }
       }
 
       async startGame() {
@@ -122,7 +150,8 @@ class JustOne {
 
                         await this.getChoice()
                         if (this.choice == 1) {
-                              let guess = await getInput("Your guess: ", false);
+                              let guess = await this.safeGetInput("Your guess: ", false);
+                              this.logGuess(guess);
                               if (phoneticallySimilar(guess, this.wordToGuess)) {
                                     console.log("Woow you won!!!");
                                     this.score++;

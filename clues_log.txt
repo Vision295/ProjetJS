@@ -1,8 +1,9 @@
 Round 1:
-Word: traffic
-Clues: hello, hello, traffic
+Word: kilobyte
+Clues: kilo, kilobyte, kilo
 
+Guess : hamster
 Round 2:
-Word: diamond
-Clues: stone, stone, jewelery
+Word: brother
+Clues: brother, hello, you
 
