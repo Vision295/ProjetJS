@@ -11,6 +11,8 @@ class JustOne {
             this.wordToGuess = [];
             this.clues = [];
             this.choice = -1;
+            this.score = 0;
+            this.nbCards = 13;
       }
       
       
@@ -86,7 +88,7 @@ class JustOne {
       async startGame() {
             try {
                   console.log(this.activePlayer, this.nbPlayer);
-                  while (this.activePlayer < this.nbPlayer) {
+                  while (this.nbCards > 0) {
                         await this.initializeGame();
                         await this.chooseWordToGuess();
                         await this.collectClues();
@@ -95,12 +97,20 @@ class JustOne {
                         console.log("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAll clues have been sent. The active player can come back to try to guess!");
                         this.displayClues();
 
-                        let guess = await getInput("Your guess: ", false);
-                        if (phoneticallySimilar(guess, this.wordToGuess)) {
-                              console.log("Woow you won!!!");
-                        } else {
-                              console.log("Oh no! The word to guess was:", this.wordToGuess);
+                        await this.getChoice()
+                        if (this.choice == 1) {
+                              let guess = await getInput("Your guess: ", false);
+                              if (phoneticallySimilar(guess, this.wordToGuess)) {
+                                    console.log("Woow you won!!!");
+                                    this.score++;
+                              } else {
+                                    console.log("Oh no! The word to guess was:", this.wordToGuess);
+                                    this.nbCards--;
+                              }
                         }
+                        this.nbCards--;
+                        console.log(`Your score is : ${this.score}, the number of cards remaining is : ${this.nbCards}`);
+                        await JustOne.sleep(2000);
                   }
             } catch (error) {
                   console.error("Error:", error);
