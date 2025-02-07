@@ -1,7 +1,5 @@
-import { JustOne } from './justOne.js';
-const { getInput } = require('./getInputs'); 
+// main.js
 
-<<<<<<< HEAD
 const { getInput, getListInputs } = require('./getInputs'); 
 const natural = require('natural');
 const { generateSlug } = require("random-word-slugs");
@@ -49,8 +47,6 @@ getWordCard = function() {
 
 }
 
-
-
 function sleep(ms) {
       return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -67,8 +63,6 @@ function removeDuplicates(arr) {
 async function run() {
       try {
             const nbPlayer = await getInput("Enter the number of player : ", true);
-            let nbPoints = 13;
-            //let activePlayer = getActivePlayer(1, nbPlayer);
             for (let activePlayer = 1; activePlayer <= nbPlayer; activePlayer++) {      
                   //let activePlayer = getActivePlayer(1, nbPlayer);
                   let wordCard = getWordCard();
@@ -102,19 +96,13 @@ async function run() {
                         console.log(`Clue number ${i} : ${clue}`)
                         i++;
                   }
-                  console.log("Do you want to : ");
-                  console.log("1 : Guess");
-                  console.log("2 : Pass")
-                  let choice = await getInput("Enter your choice (1 or 2)", true)
-                  if (choice === 1){
-                        console.log("Guess Player (player number : ", activePlayer, ") try to guess the word !!!")
+                  console.log("Guess Player (player number : ", activePlayer, ") try to guess the word !!!")
 
-                        let guess = await getInput("Your guess : ", false)
-                        if (areWordsPhoneticallySimilar(guess, wordToGuess)) {
-                              console.log("Woow you won !!!")
-                        } else {
-                              console.log("Oh no the word to guess was : ", wordToGuess)
-                        }
+                  let guess = await getInput("Your guess : ", false)
+                  if (areWordsPhoneticallySimilar(guess, wordToGuess)) {
+                        console.log("Woow you won !!!")
+                  } else {
+                        console.log("Oh no the word to guess was : ", wordToGuess)
                   }
             }
       } catch (error) {
@@ -124,8 +112,3 @@ async function run() {
 
 
 run()
-=======
-const nbPlayer = getInput("Enter the number of players : ")
-const game = new JustOne(nbPlayer);
-game.startGame();
->>>>>>> 772a55700d94bde9ec346c1c9fd699a4f8111697
