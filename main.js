@@ -57,8 +57,8 @@ async function run() {
             let wordToGuess = getWordToGuess();
             explainRules(nbPlayer, activePlayer, wordToGuess);
 
-            sleep(2000);
             console.log("The word you should make him guess is : ", wordToGuess);
+            await sleep(2000);
 
             let clues = await getListInputs(nbPlayer, "Give a clue to the active player : ");
 
