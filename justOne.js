@@ -1,5 +1,5 @@
 // JustOne.js
-
+const fs = require('fs');
 const { getInput, getListInputs } = require('./getInputs'); 
 const { phoneticallySimilar } = require('./wordManipulation');
 const { generateSlug } = require("random-word-slugs");
@@ -13,6 +13,7 @@ class JustOne {
             this.choice = 0;
             this.score = 0;
             this.nbCards = 13;
+            this.round = 0;
       }
       
       
@@ -62,7 +63,7 @@ class JustOne {
             }, {});
             
             // Filter to keep only unique clues
-            this.clues.filter(item => counts[item] === 1);
+            this.clues = this.clues.filter(item => counts[item] === 1);
       }
       
       async removeSameAsWord() {
@@ -78,9 +79,18 @@ class JustOne {
       }
 
       async collectClues() {
+            
             this.clues = await getListInputs(this.nbPlayer, `Give a clue to the active player to make him guess ${this.wordToGuess} : `);
+            this.logCluesToFile();
             this.removeSameAsWord();
             this.removeDuplicates();
+      }
+
+      logCluesToFile() {
+            const logEntry = `Round ${this.round}:\nWord: ${this.wordToGuess}\nClues: ${this.clues.join(', ')}\n\n`;
+            
+            
+            fs.appendFileSync("clues_log.txt", logEntry, "utf8");
       }
 
       explainRules() {
@@ -98,8 +108,10 @@ class JustOne {
 
       async startGame() {
             try {
+                  fs.writeFileSync("clues_log.txt", "", "utf8");
                   console.log(this.activePlayer, this.nbPlayer);
                   while (this.nbCards > 0) {
+                        this.round++;
                         await this.initializeGame();
                         await this.chooseWordToGuess();
                         await this.collectClues();
