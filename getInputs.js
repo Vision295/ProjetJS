@@ -15,6 +15,7 @@ function getInput(msg, isNum) {
                               reject("Invalid input number");
                               return;
                         }
+                        resulove(parseInt(numInputs))
                   }
                   resolve(numInputs)
             } catch (error) {
