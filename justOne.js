@@ -23,9 +23,6 @@ class JustOne {
             return slugs // Push the result of generateSlug() into the array
       }
 
-      static getActivePlayer(min, max) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-      }
 
       async getChoice() {
             console.log("Do you want to : ");
