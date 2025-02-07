@@ -1,5 +1,19 @@
 const { getInput, getListInputs } = require('./getInputs'); // Import the getInputs function
+const natural = require('natural');
 
+
+const metaphone = new natural.Metaphone(); // Create an instance of the Metaphone class
+function areWordsPhoneticallySimilar(word1, word2) {
+    const phoneticCode1 = metaphone.process(word1);  // Process the first word
+    const phoneticCode2 = metaphone.process(word2);  // Process the second word
+
+    // Check if the phonetic codes are the same
+    if (phoneticCode1 === phoneticCode2) {
+        return true; // Words are phonetically similar
+    } else {
+        return false; // Words are not phonetically similar
+    }
+}
 
 let wordToGuess = "Friend";
 
@@ -17,7 +31,16 @@ async function run() {
 
             let clues = await getListInputs(nbPlayer, "Give a clue to the active player : ");
 
-            console.log("All clues have been sent. The active player can come back to try to guess !");
+            let reelclues = []
+            for (clue of clues) {
+                  if (areWordsPhoneticallySimilar(clue, wordToGuess)) {
+                        console.log(`the word ${clue} can be pronounced the same way as the word ${wordToGuess}`);
+                  } else {
+                        reelclues.push(clue);
+                  }
+            }
+
+            console.log("All clues have been sent. The active player can come back to try to guess ! with the following clues : ");
       } catch (error) {
             console.error("Error : ", error)
       }

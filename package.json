@@ -1,6 +1,8 @@
 {
   "dependencies": {
+    "double-metaphone": "^2.0.1",
     "input": "^1.0.1",
+    "natural": "^8.0.1",
     "prompt-sync": "^4.2.0"
   }
 }
